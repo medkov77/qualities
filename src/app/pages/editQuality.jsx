@@ -1,49 +1,50 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import EditForm from "../components/ui/editForm";
 import qualityService from "../services/quality.service";
+import { toast } from "react-toastify";
+import QualityForm from "../components/ui/qualityForm";
 
 const EditQualityPage = () => {
-  const [quality, setQuality] = useState(null);
-  const id = useParams().id;
-  const qualityEndPoint = `quality/${id}`;
-  const uodateQuality = async (content) => {
-    const data = await qualityService.update(id, content);
-    console.log(data);
-  };
-  //   try {
-  //     const { data } = await httpService.put(qualityEndPoint, content);
-  //     return data;
-  //   } catch (error) {
-  //     console.log("expected error");
-  //   }
-  // };
-  const getQuality = async (id) => {
-    try {
-      const { data } = await httpService.get(qualityEndPoint);
-      return data;
-    } catch (error) {
-      console.log("expected error");
-    }
-  };
+    const [quality, setQuality] = useState(null);
+    const [errors, setErrors] = useState(null);
+    const id = useParams().id;
+    const updateQuality = async content => {
+        try {
+            const data = await qualityService.update(id, content);
+            return data.content;
+        } catch (error) {
+            const { message, code } = error.response.data;
+            setErrors({ message, code });
+            toast.error(message);
+            console.log(errors);
+        }
+    };
+    const getQuality = async id => {
+        try {
+            const data = await qualityService.get(id);
+            return data.content;
+        } catch (error) {
+            console.log("expected error");
+        }
+    };
 
-  const handleSubmit = (data) => {
-    uodateQuality(data);
-  };
-  useEffect(() => {
-    getQuality(id).then((data) => setQuality(data.content));
-  }, []);
+    const handleSubmit = data => {
+        updateQuality(data);
+    };
+    useEffect(() => {
+        getQuality(id).then(data => setQuality(data));
+    }, [id]);
 
-  return (
-    <>
-      <h1>Edit Quality Page</h1>{" "}
-      {quality !== null ? (
-        <EditForm data={quality} onSubmit={handleSubmit} />
-      ) : (
-        "loading"
-      )}
-    </>
-  );
+    return (
+        <>
+            <h1>Edit Quality Page</h1>{" "}
+            {quality !== null ? (
+                <QualityForm data={quality} onSubmit={handleSubmit} />
+            ) : (
+                "loading"
+            )}
+        </>
+    );
 };
 
 export default EditQualityPage;

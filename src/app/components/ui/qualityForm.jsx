@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import SelectField from "../common/form/selectField";
 import TextField from "../common/form/textField";
 import colors from "../../constants/colors.json";
 import useForm from "../../hooks/useForm";
-const EditForm = ({ data, onSubmit }) => {
-    const { form, handeleSubmit, handleChange } = useForm(data, onSubmit);
+import { useQualities } from "../../hooks/useQualities";
 
+const QualityForm = ({ onSubmit }) => {
+    const { form, handeleSubmit, handleChange } = useForm({});
+    const data = useQualities();
+    console.log("data", data);
     return (
         <form onSubmit={handeleSubmit}>
             <TextField
@@ -26,4 +29,4 @@ const EditForm = ({ data, onSubmit }) => {
     );
 };
 
-export default EditForm;
+export default QualityForm;
