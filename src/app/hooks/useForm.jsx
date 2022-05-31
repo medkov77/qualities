@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 const useForm = (initialState = {}, onSubmit) => {
+    console.log("init", initialState);
     const [form, setForm] = useState(initialState);
     const handeleSubmit = e => {
         e.preventDefault();
@@ -14,6 +15,7 @@ const useForm = (initialState = {}, onSubmit) => {
             [target.name]: target.value,
         }));
     };
-    return { handleChange, form, handeleSubmit };
+
+    return { form, handleChange, handeleSubmit };
 };
 export default useForm;
