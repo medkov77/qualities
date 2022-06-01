@@ -6,23 +6,22 @@ import useForm from "../../hooks/useForm";
 
 const QualityForm = ({ data, onSubmit }) => {
     const { form, handeleSubmit, handleChange } = useForm(data, onSubmit);
-    console.log("form", form);
     return (
         <form onSubmit={handeleSubmit}>
             <TextField
-                label="Наименование"
-                name="name"
+                label='Наименование'
+                name='name'
                 onChange={handleChange}
                 value={form.name || ""}
             />
             <SelectField
-                label="Цвет"
-                name="color"
+                label='Цвет'
+                name='color'
                 options={colors}
                 onChange={handleChange}
                 value={form.color || ""}
             />
-            <button className="btn btn-primary">Submit</button>
+            <button className='btn btn-primary'>Submit</button>
         </form>
     );
 };
